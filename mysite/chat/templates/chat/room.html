@@ -13,7 +13,9 @@
 	<input id="submit-a" type="button" value="Send A"/>
 	<input id="submit-b" type="button" value="Send B"/>
 	<input id="submit-c" type="button" value="Send C"/>
-	<input id="submit-d" type="button" value="Send D"/>
+	<input id="submit-d" type="button" value="Send D (Below)"/><br/>
+
+	<textarea id="alt-log" cols="100" rows="10"></textarea><br/>
 </body>
 <script>
 	var roomName = {{ room_name_json }};
@@ -24,8 +26,16 @@
 
 	chatSocket.onmessage = function(e) {
         	var data = JSON.parse(e.data);
-        	var message = data['message'];
-        	document.querySelector('#chat-log').value += (message + '\n');
+
+		if (data['msg_type']=='1') {
+			var message = data['message'];
+			document.querySelector('#alt-log').value += (message + '\n');
+		}
+
+		if (data['msg_type']=='2') {
+			var altMessage = data['message'];
+			document.querySelector('#chat-log').value += (altMessage + '\n');
+		};
 	};
 
 	chatSocket.onclose = function(e) {
@@ -52,14 +62,16 @@
 	document.querySelector('#submit-a').onclick = function(e) {
 		var message = "Submitting A";
 		chatSocket.send(JSON.stringify({
-			'message': message
+			'message': message,
+			'msg_type': '1'
 		}));
 	};
 
 	document.querySelector('#submit-b').onclick = function(e) {
 		var message = "Submitting B";
 		chatSocket.send(JSON.stringify({
-			'message': message
+			'message': message,
+			'msg_type': '2'
 		}));
 	};
 
@@ -73,7 +85,7 @@
 	document.querySelector('#submit-d').onclick = function(e) {
 		var message = "Submitting D";
 		chatSocket.send(JSON.stringify({
-			'message': message
+			'altMessage': message
 		}));
 	};
 
