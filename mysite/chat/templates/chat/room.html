@@ -10,15 +10,18 @@
 	<input id="chat-message-input" type="text" size="100"/><br/>
 	<input id="chat-message-submit" type="button" value="Send"/>
 
-	<input id="submit-a" type="button" value="Send A"/>
-	<input id="submit-b" type="button" value="Send B"/>
-	<input id="submit-c" type="button" value="Send C"/>
-	<input id="submit-d" type="button" value="Send D (Below)"/><br/>
+	<p id="dispVoteA">Votes for A: </p>
+	<p id="dispVoteB">Votes for B: </p>
+	<p id="dispVoteC">Votes for C: </p>
+	<p id="dispVoteD">Votes for D: </p>
 
-	<textarea id="alt-log" cols="100" rows="10"></textarea><br/>
 </body>
 <script>
 	var roomName = {{ room_name_json }};
+	var voteA = 0;
+	var voteB = 0;
+	var voteC = 0;
+	var voteD = 0;
 
 	var chatSocket = new WebSocket(
 		'ws://' + window.location.host +
@@ -33,7 +36,22 @@
 		}
 		if (data['msg_type']=='1') {
 			var message = data['message'];
-			document.querySelector('#chat-log').value += (message + '\n');
+			if (message == 'A') {
+				voteA +=1;
+				document.getElementById("dispVoteA").innerHTML = "Votes for A: " + voteA;
+			}
+			if (message == 'B') {
+				voteB +=1;
+				document.getElementById("dispVoteB").innerHTML = "Votes for B: " + voteB;
+			}
+			if (message == 'C') {
+				voteC +=1;
+				document.getElementById("dispVoteC").innerHTML = "Votes for C: " + voteC;
+			}
+			if (message == 'D') {
+				voteD +=1;
+				document.getElementById("dispVoteD").innerHTML = "Votes for D: " + voteD;
+			}
 		}
 
 		if (data['msg_type']=='2') {
@@ -62,38 +80,6 @@
 		}));
 
 		messageInputDom.value = '';
-	};
-
-	document.querySelector('#submit-a').onclick = function(e) {
-		var message = "Submitting A";
-		chatSocket.send(JSON.stringify({
-			'message': message,
-			'msg_type': '1'
-		}));
-	};
-
-	document.querySelector('#submit-b').onclick = function(e) {
-		var message = "Submitting B";
-		chatSocket.send(JSON.stringify({
-			'message': message,
-			'msg_type': '2'
-		}));
-	};
-
-	document.querySelector('#submit-c').onclick = function(e) {
-		var message = "Submitting C";
-		chatSocket.send(JSON.stringify({
-			'message': message,
-			'msg_type': '1'
-		}));
-	};
-
-	document.querySelector('#submit-d').onclick = function(e) {
-		var message = "Submitting D";
-		chatSocket.send(JSON.stringify({
-			'message': message,
-			'msg_type': '2'
-		}));
 	};
 
 </script>

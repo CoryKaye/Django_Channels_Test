@@ -34,7 +34,7 @@
 	};
 
 	document.querySelector('#submit-a').onclick = function(e) {
-		var message = "Submitting A";
+		var message = "A";
 		chatSocket.send(JSON.stringify({
 			'message': message,
 			'msg_type': '1'
@@ -42,26 +42,26 @@
 	};
 
 	document.querySelector('#submit-b').onclick = function(e) {
-		var message = "Submitting B";
+		var message = "B";
 		chatSocket.send(JSON.stringify({
 			'message': message,
-			'msg_type': '2'
+			'msg_type': '1'
 		}));
 	};
 
 	document.querySelector('#submit-c').onclick = function(e) {
-		var message = "Submitting C";
+		var message = "C";
 		chatSocket.send(JSON.stringify({
 			'message': message,
-			'msg_tpe': '1'
+			'msg_type': '1'
 		}));
 	};
 
 	document.querySelector('#submit-d').onclick = function(e) {
-		var message = "Submitting D";
+		var message = "D";
 		chatSocket.send(JSON.stringify({
 			'message': message,
-			'msg_type': '2'
+			'msg_type': '1'
 		}));
 	};
 
