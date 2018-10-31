@@ -11,3 +11,7 @@ def room(request, room_name):
             'room_name_json': mark_safe(json.dumps(room_name))
         })
 
+def join(request, room_name):
+    return render(request, 'chat/join.html', {
+            'room_name_json': mark_safe(json.dumps(room_name))
+        })
